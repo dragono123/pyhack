@@ -113,6 +113,7 @@ class Dungeon:
         self.room_min_size = 5
         self.board = [[0 for _ in range(self.width)]
                       for _ in range(self.height)]
+        self.rooms = []
 
     def random_generation(self):
         """
@@ -130,7 +131,6 @@ class Dungeon:
             if leaf.split(leaf_min_size, leaf.dims[1] > leaf.dims[0]):
                 leaf_spliting(leaf.child_1)
                 leaf_spliting(leaf.child_2)
-
             return True
 
         leaf_spliting(root)
@@ -154,6 +154,7 @@ class Dungeon:
 
     def create_room(self, room):
         """ Add the room to the board """
+        self.rooms.append(room)
         room_y, room_x = room.coords
         room_height, room_width = room.dims
         for line in range(room_y, room_y + room_height):
