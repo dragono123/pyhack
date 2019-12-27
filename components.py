@@ -14,13 +14,13 @@ class Player:
     def __init__(self):
         self.action = Action_List.NOTHING
 
-class Action_List(enum.Enum):
+class Action_List(enum.IntFlag):
     NOTHING = 0
     MOVE = 8
-    MOVE_UP = 1 | MOVE
-    MOVE_DOWN = 2 | MOVE
-    MOVE_RIGHT = 3 | MOVE
-    MOVE_LEFT = 4 | MOVE
+    UP = 1
+    DOWN = 2
+    RIGHT = 3
+    LEFT = 4
 
 
 class Position:
@@ -30,3 +30,11 @@ class Position:
     def __init__(self, y=0, x=0):
         self.x_coord = x
         self.y_coord = y
+
+
+class Icon:
+    """
+    How the entity is represented in the display
+    """
+    def __init__(self, display):
+        self.display = display

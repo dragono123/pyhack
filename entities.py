@@ -3,7 +3,7 @@ Entities : Management of differente entities and their components
 """
 
 from functools import lru_cache
-from random import randint
+from random import randint, choice
 import components
 
 
@@ -28,7 +28,7 @@ class Registry:
         self.components[component_type].add(entity)
 
         if entity not in self.entities:
-            self.entities[entity] = set()
+            self.entities[entity] = {}
         self.entities[entity][component_type] = component
         self.cache_clear()
 
@@ -39,7 +39,7 @@ class Registry:
     @lru_cache()
     def get_multiple_components(self, *component_types):
         entities = (self.components.get(ct, set()) for ct in component_types)
-        return list(set.intersection(entities))
+        return list(set.intersection(*entities))
 
     def cache_clear(self):
         self.get_single_component.cache_clear()
@@ -75,9 +75,11 @@ class Registry:
 
 
 def add_entities(dungeon, registry):
-    p_room = dungeon.rooms.choice()
-    random_y = randint(p_room.y_coord, p_room.random_y + p_room.height)
-    random_x = randint(p_room.x_coord, p_room.random_x + p_room.height)
+    p_room = choice(dungeon.rooms)
+    y_coord, x_coord = p_room.coords
+    random_y = randint(y_coord, y_coord + p_room.dims[0] - 1)
+    random_x = randint(x_coord, x_coord + p_room.dims[1] - 1)
     player = registry.create_entity(components.
-                                    Position(y=random_y, x=random_x))
+                                    Position(y=random_y, x=random_x),
+                                    components.Player(), components.Icon("@"))
     dungeon.board[random_y][random_x] = player

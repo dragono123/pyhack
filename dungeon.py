@@ -108,8 +108,8 @@ class Dungeon:
     """
     def __init__(self):
         # init dimensions
-        self.width = 80
-        self.height = 60
+        self.width = 300
+        self.height = 200
         self.room_min_size = 5
         self.board = [[0 for _ in range(self.width)]
                       for _ in range(self.height)]
